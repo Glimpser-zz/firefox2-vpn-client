@@ -31,15 +31,12 @@ flutter:
   generate: true
 
   assets:
-    # The fox shield beside the app's name (tool/app_icons.py).
+    - assets/logo.webp
     - assets/logo.png
     - assets/tray/
-    # Country flags from flag-icons (MIT, assets/flags/LICENSE), the same
-    # SVG files as the core's web dashboard.
     - assets/flags/
 
   fonts:
-    # Vazirmatn (SIL Open Font License 1.1, assets/fonts/OFL.txt) for Persian.
     - family: Vazirmatn
       fonts:
         - asset: assets/fonts/Vazirmatn-Regular.ttf
