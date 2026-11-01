@@ -1,4 +1,4 @@
-package com.arman.firefoxvpn
+package com.glimpser.firefox2vpn
 
 import android.Manifest
 import android.app.ActivityManager
