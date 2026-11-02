@@ -175,15 +175,16 @@ jobs:
           KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
-          if [ -z "$KEYSTORE" ]; then
+          if [ -z "$KEYSTORE" ] || [ -z "$PASSWORD" ]; then
             if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-              echo "::error::a release needs the ANDROID_KEYSTORE_BASE64 and ANDROID_KEYSTORE_PASSWORD secrets"
+              echo "::error::a release needs both ANDROID_KEYSTORE_BASE64 and ANDROID_KEYSTORE_PASSWORD secrets"
               exit 1
             fi
-            echo "::warning::no release key: the APKs are signed with a debug key"
+            echo "::warning::release key secrets are incomplete; APKs are signed with a debug key"
             exit 0
           fi
           printf '%s' "$KEYSTORE" | base64 -d > app/android/release.jks
+          keytool -list -keystore app/android/release.jks -storetype PKCS12 -storepass "$PASSWORD" -alias release >/dev/null
           printf 'storeFile=../release.jks\nstorePassword=%s\nkeyAlias=release\nkeyPassword=%s\n' "$PASSWORD" "$PASSWORD" > app/android/key.properties
       - name: Build
         run: |
